@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đổi màu chữ và màu nền</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function clearForm() {
+            document.getElementById("replaceForm").reset();
+            window.location.href = window.location.pathname;
+        }
+    </script>
 </head>
 <body>
     <form method="post">
@@ -16,6 +25,7 @@
         Màu nền (hex): 
         <br> <input type="text" name="hexnen" placeholder="#rgb" value="<?php echo $_POST['hexnen'] ?? ''; ?>"> <br><br>
         <input type="submit" value="Xem">
+        <button type="button" onclick="clearForm()">Xóa</button>
     </form>
 
     <?php
