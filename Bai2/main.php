@@ -2,46 +2,69 @@
 <html>
 <head>
     <title>Sắp xếp mảng</title>
+    <meta charset="UTF-8">
 </head>
 <body>
 
-    <form method="post">
-        Nhập mảng: <br>
-        <input type="text" name="mang" value="<?php echo $_POST['mang'] ?? ''; ?>"> <br><br>
-        <input type="submit" value="Sắp xếp mảng"> <br><br>
-    </form>
-
     <?php
+        $error = "";
+        $input = "";
+        $cleanArray = [];
+        $sortedArrayAsc = [];
+        $sortedArrayDesc = [];
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $chuoiso = $_POST['mang'];
+            $input = $_POST['mang'] ?? '';
+        
+            if (empty($input)) {
+                $error = "Bạn chưa nhập mảng.";
+            } else {
+                $array = explode(",", $input);
+                foreach ($array as &$value) {
+                    $value = trim($value);
+                }
+                unset($value);
 
-            $mangso = explode(",", $chuoiso);
-            sapxepmang($mangso);            
-            
-            if (empty($_POST['mang'])) {
-                echo "Bạn chưa nhập mảng <br/>";
-            }elseif (count($mangso) < 2) {
-                echo "Vui lòng nhập ít nhất 2 số, cách nhau bằng dấu ',' <br/>";
-            }else {
-
-                echo "Mảng ban đầu: <br>";
-                echo implode(", ", $mangso);
-
-                sort($mangso);
-                echo "<br><br>Mảng tăng dần: <br>";
-                echo implode(", ", $mangso);
-
-                rsort($mangso);
-                echo "<br><br>Mảng giảm dần: <br>";
-                echo implode(", ", $mangso);
-            }
-        }
-
-        function sapxepmang($mangso) {
-            for ($i = 0; $i < count($mangso); $i++) {
-                $mangso[$i] = trim($mangso[$i]);
+                if (in_array("", $array, true)) {
+                    $error = "Mảng không hợp lệ, có thể bạn nhập 2 dấu ',' liên tiếp hoặc có thể dư. Kiểm tra lại";
+                } elseif (count($array) < 2) {
+                    $error = "Nhập ít nhất 2 phần tử, cách nhau bằng dấu ','.";
+                } else {
+                    $cleanArray = $array;
+                    $sortedArrayAsc = $array;
+                    sort($sortedArrayAsc);
+        
+                    $sortedArrayDesc = $array;
+                    rsort($sortedArrayDesc);
+                }
             }
         }
     ?>
+
+    <form method="post">
+        <table cellspacing="0" cellpadding="5">
+            <tr>
+                <td>Nhập mảng</td>
+                <td>
+                    <input type="text" name="mang" value="<?php echo $input; ?>"/>
+                    <span><?php echo $error; ?></span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Sắp xếp mảng"/></td>
+            </tr>
+        </table>
+    </form>
+
+    <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($error)) {
+            echo "Kết quả:";
+            echo "<p>Mảng ban đầu: " . implode(", ", $cleanArray) . "</p>";
+            echo "<p> Mảng tăng dần: " . implode(", ", $sortedArrayAsc) . "</p>";
+            echo "<p>Mảng giảm dần: " . implode(", ", $sortedArrayDesc) . "</p>";
+        }
+    ?>
+
 </body>
 </html>
