@@ -10,11 +10,14 @@
             window.location.href = window.location.pathname;
         }
     </script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php
         $error = array();
         $data = array();
+        $original_array = array();
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $data['elements'] = isset($_POST['elements']) ? $_POST['elements'] : '';
             $data['old_value'] = isset($_POST['old_value']) ? $_POST['old_value'] : '';
@@ -22,7 +25,7 @@
 
             // bắt đầu và kết thúc kiểm tra dữ liệu
             if (!preg_match('/^[a-zA-Z0-9,\s]+$/', $data['elements'])) {
-                $error['elements'] = "Dữ liệu sai, chỉ được sử dụng dấu ',' và khoảng trắng";
+                $error['elements'] = "Nhập sai, chỉ được sử dụng dấu ',' và khoảng trắng";
             }
             if (empty($data['elements'])) {
                 $error['elements'] = "Bạn chưa nhập các phần tử";
@@ -35,9 +38,15 @@
             }
             
             if (!$error) {
+                $original_array = explode(",", $data['elements']);
+                foreach ($original_array as &$value) {
+                    $value = trim($value);
+                }
+                unset($value);
+
                 $replaced_array = $original_array;
                 foreach ($replaced_array as &$element) {
-                    if (trim($element) == trim($data['old_value'])) {
+                    if ($element == trim($data['old_value'])) {
                         $element = $data['new_value'];
                     }
                 }
