@@ -45,10 +45,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Rút tiền ATM</title>
+    <script>
+        function clearForm() {
+            document.getElementById("replaceForm").reset();
+            window.location.href = window.location.pathname;
+        }
+    </script>
 </head>
 <body>
     Nhập vào số tiền ATM đang có:
-    <form method="post">
+    <form method="post" id="replaceForm">
         Số tờ 500k: <input type="number" name="num500Bills" required><br>
         Số tờ 200k: <input type="number" name="num200Bills" required><br>
         Số tờ 100k: <input type="number" name="num100Bills" required><br>
@@ -56,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         Nhập vào số tiền bạn muốn rút:
         <input type="number" name="withdrawAmount" required><br>
         <button type="submit">Nhận tiền</button>
+        <button type="button" onclick="clearForm()">Xóa Form</button>
     </form>
     
     <?php 

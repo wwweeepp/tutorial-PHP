@@ -52,7 +52,6 @@
                 }
                 unset($element);
 
-                
                 echo "Mảng ban đầu: " . implode(", ", $original_array) . "<br/>";
                 echo "Mảng sau khi thay thế: " . implode(", ", $replaced_array);
             } else {

@@ -13,7 +13,7 @@
     </script>
 </head>
 <body>
-    <form method="post">
+    <form method="post" id="replaceForm">
         Nội dung: 
         <br> <input type="text" name="noidung" value="<?php echo $_POST['noidung'] ?? ''; ?>"> <br><br>
         Màu chữ: 
@@ -30,14 +30,18 @@
 
     <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $noidung = $_POST['noidung'];
+            $noidung = isset($_POST['noidung']) ? $_POST['noidung'] : '';
             $mauchu = !empty($_POST['hexchu']) ? $_POST['hexchu'] : $_POST['mauchu'];
             $maunen = !empty($_POST['hexnen']) ? $_POST['hexnen'] : $_POST['maunen'];
 
-            if($noidung) {}
-            echo "<div style='margin-top:20px; padding:10px; color:$mauchu; background-color:$maunen;'>";
-            echo "$noidung";
-            echo "</div>";
+            if ($noidung == null) {
+                echo "Vui lòng nhập nội dung";
+            } else {
+                echo "<div style='margin-top:20px; padding:10px; color:$mauchu; background-color:$maunen;'>";
+                echo "$noidung";
+                echo "</div>";
+            }
+            
         }
     ?>
 </body>
